@@ -10,6 +10,8 @@ using Microsoft.Extensions.Hosting;
 using cartservice.cartstore;
 using cartservice.services;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
+using Grpc.Reflection;
+using Grpc.Reflection.V1Alpha;
 
 namespace cartservice
 {
@@ -57,6 +59,7 @@ namespace cartservice
 
 
             services.AddGrpc();
+            services.AddGrpcReflection();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -73,6 +76,7 @@ namespace cartservice
             {
                 endpoints.MapGrpcService<CartService>();
                 endpoints.MapGrpcService<cartservice.services.HealthCheckService>();
+                endpoints.MapGrpcReflectionService();
 
                 endpoints.MapGet("/", async context =>
                 {
